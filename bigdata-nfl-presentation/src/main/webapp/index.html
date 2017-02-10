@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>BigData-Projekt</title>
+	
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="css/dashboard.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.css">
+	<script type="text/javascript" language="javascript"
+		src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script>
+		$(document)
+				.ready(
+						function() {
+							var restAPI = "http://localhost:8081/bigdata-nfl-hbase-interface/api/nfl/getTeamstatistics";
+
+							$.getJSON(restAPI, function(json) {
+								var tr;
+								for (var i = 0; i < json.length; i++) {
+									tr = $('<tr/>');
+									tr.append("<td>" + json[i].teamName + "</td>");
+									tr.append("<td>" + json[i].rank + "</td>");
+									$('table').append(tr);
+								}
+							});
+						});
+	</script>
+	<style>
+body {
+  margin: 15px;
+  background-color: #F1F3F3    
+}
+.bar {
+	fill: #6F257F;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #D4D8DA;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+.x path {
+	display: none;
+}
+.toolTip {
+	position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 14px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">NFL-Statistics</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid" data-toggle="collapse">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#">Overview <span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="#">Reports</a></li>
+					<li><a href="#">Analytics</a></li>
+					<li><a href="#">Export</a></li>
+				</ul>
+
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<h1 class="page-header">Dashboard</h1>
+
+				<svg width="960" height="500"></svg>
+
+				<h2 class="sub-header">All Teams</h2>
+				<div id="dvTable"></div>
+				<div class="table-responsive">
+					<table id="resultsTable" class="table table-striped">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Rank</th>
+							</tr>
+
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="js/d3.v4.min.js"></script>
+
+	<!-- 	<script type="text/javascript" language="javascript" -->
+	<!-- 		src="http://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script> -->
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+
+	<script>
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 80},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
+  
+var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+  
+var x = d3.scaleLinear().range([0, width]);
+var y = d3.scaleBand().range([height, 0]);
+
+var g = svg.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  
+d3.json("http://localhost:8081/bigdata-nfl-hbase-interface/api/nfl/getTopHashtags", function(error, data) {
+  	if (error) throw error;
+  
+  	data.sort(function(a, b) { return a.counter - b.counter; });
+  
+  	x.domain([0, d3.max(data, function(d) { return d.counter; })]);
+    y.domain(data.map(function(d) { return d.name; })).padding(0.1);
+
+    g.append("g")
+        .attr("class", "x axis")
+       	.attr("transform", "translate(0," + height + ")")
+      	.call(d3.axisBottom(x).ticks(100).tickFormat(function(d) { return parseInt(d / 1000); }).tickSizeInner([-height]));
+
+    g.append("g")
+        .attr("class", "y axis")
+        .call(d3.axisLeft(y));
+
+    g.selectAll(".bar")
+        .data(data)
+      .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", 0)
+        .attr("height", y.bandwidth())
+        .attr("y", function(d) { return y(d.name); })
+        .attr("width", function(d) { return x(d.counter); })
+        .on("mousemove", function(d){
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html((d.name) + "<br>" + "£" + (d.counter));
+        })
+    		.on("mouseout", function(d){ tooltip.style("display", "none");});
+});
+</script>
+</body>
+
+</html>

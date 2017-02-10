@@ -1,0 +1,32 @@
+Buffalo Bills,0,AFC EAST,bills
+Miami Dolphins,0,AFC EAST,dolphins
+New England Patriots,0,AFC EAST,pats
+New York Jets,0,AFC EAST,jets
+Baltimore Ravens,0,AFC NORTH,ravens
+Cincinnati Bengals,0,AFC NORTH,bengals
+Cleveland Browns,0,AFC NORTH,browns
+Pittsburgh Steelers,0,AFC NORTH,steelers
+Houston Texans,0,AFC SOUTH,texans
+Indianapolis Colts,0,AFC SOUTH,colts
+Jacksonville Jaguars,0,AFC SOUTH,jags
+Tennessee Titan,0,AFC SOUTH,titans
+Denver Broncos,0,AFC WEST,broncos
+Kansas City Chiefs,0,AFC WEST,chiefs
+Oakland Raiders,0,AFC WEST,raiders
+San Diego Chargers,0,AFC WEST,chargers
+Dallas Cowboys,0,NFC EAST,cowboys
+New York Giants,0,NFC EAST,giants
+Philadelphia Eagles,0,NFC EAST,eagles
+Washington Redskins,0,NFC EAST,redskins
+Chicago Bears,0,NFC NORTH,bears
+Detroit Lions,0,NFC NORTH,lions
+Green Bay Packers,0,NFC NORTH,"packers;packs;gopacksgo"
+Minnesota Vikings,0,NFC NORTH,vikings
+Atlanta Falcons,0,NFC SOUTH,falcons
+Carolina Panthers,0,NFC SOUTH,panthers
+New Orleans Saints,0,NFC SOUTH,saints
+Tampa Bay Buccaneers,0,NFC SOUTH,buaccaneers
+Arizona Cardinals,0,NFC WEST,cardinals
+Los Angeles Rams,0,NFC WEST,rams
+San Francisco 49ers,0,NFC WEST,"49;sf"
+Seattle Seahawks,0,NFC WEST,"seehawks;hawks"
